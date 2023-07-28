@@ -6,13 +6,19 @@ const cli = cac(name)
 
 cli.command('')
     .option('--url <url>', 'Your deployed Next.js url, like xxx.fly.dev', {})
+    .option(
+        '--use-secrets',
+        'process.env.VAR is converted to use your Cloudflare secrets',
+        { default: false },
+    )
     .option('--middleware <middlewarePath>', 'Your Next.js middleware path', {})
     .action(async (opts) => {
-        console.log(opts)
-        const { middleware, url } = opts
+        // console.log(opts)
+        const { middleware, url, useSecrets } = opts
         await buildMiddleware({
             middleware,
             url,
+            useSecrets,
         })
     })
 
@@ -35,3 +41,10 @@ async function main() {
 }
 
 main()
+
+let finalUrl =
+    process.env.NEXT_PUBLIC_ENV === 'development'
+        ? `http://localhost:5467`
+        : process.env.NEXT_PUBLIC_ENV === 'preview'
+        ? 'https://knowledg-website-preview.fly.dev'
+        : ``

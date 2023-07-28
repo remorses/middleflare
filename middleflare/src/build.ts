@@ -8,7 +8,8 @@ import path from 'path'
 
 // console.log(process.env.DIRECT_URL)
 
-export async function buildMiddleware({ middleware, url }) {
+export async function buildMiddleware({ useSecrets, middleware, url }) {
+    console.log(`Bundling middleware to dist/worker.js`)
     if (!middleware) {
         throw new Error(`--middleware is required`)
     }
@@ -21,11 +22,15 @@ export async function buildMiddleware({ middleware, url }) {
         throw new Error(`invalid url ${url}`)
     }
     // to make docker generate native prisma addons
-    const define = Object.fromEntries(
-        Object.keys(process.env).map((k) => {
-            return [`process.env.${k}`, JSON.stringify(process.env[k])]
-        }),
-    )
+    let envVars = !useSecrets
+        ? Object.fromEntries(
+              Object.keys(process.env).map((k) => {
+                  return [`process.env.${k}`, JSON.stringify(process.env[k])]
+              }),
+          )
+        : Object.keys(process.env).map((k) => {
+              return [`process.env.${k}`, 'globalThis.__ENV__.' + k]
+          })
     fs.promises.unlink('dist').catch((e) => null)
     const index = path.resolve(
         path.dirname(require.resolve('../package.json')),
@@ -55,7 +60,14 @@ export async function buildMiddleware({ middleware, url }) {
         // mainFields: ['module', 'main'],
         plugins: [
             LooselyIgnoreDeps(),
-            polyfillNode(), //
+            polyfillNode({
+                globals: {
+                    global: true,
+                    buffer: true,
+                    navigator: true,
+                    process: true,
+                },
+            }), //
             StripWasmModulesQuery(),
             // UseNextEsm(),
         ],
@@ -64,7 +76,7 @@ export async function buildMiddleware({ middleware, url }) {
         logOverride: {
             'import-is-undefined': 'silent',
         },
-        define,
+        define: envVars,
         // splitting: false,
         // splitting: true,
         // outdir: 'dist',

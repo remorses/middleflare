@@ -53,7 +53,7 @@ async function processMiddlewareResp(
     } else if (!rewriteHeader && !resp.headers.has('location')) {
         // We should set the final response body and status to the middleware's if it does not want
         // to continue and did not rewrite/redirect the URL.
-        
+
         return new Response(resp.body, {
             status: resp.status,
             headers: resp.headers,
@@ -88,6 +88,7 @@ function applyHeaders(
     source: Record<string, string> | Headers,
 ): void {
     const entries =
+
         source instanceof Headers ? source.entries() : Object.entries(source)
     for (const [key, value] of entries) {
         const lowerKey = key.toLowerCase()
@@ -111,6 +112,7 @@ function safeUrl(url: string) {
 export function middlewareAdapter({ middlewareModule, finalUrl }) {
     const worker: ExportedHandler = {
         async fetch(request, env, context) {
+            globalThis.__ENV__ = env
             try {
                 // @ts-ignore
                 context.sourcePage = new URL(request.url).pathname
