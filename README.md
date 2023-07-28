@@ -18,6 +18,8 @@ Adding Cloudflare workers on top of your app will have several benefits:
 -   DDOS protection
 -   Faster redirects and rewrites
 
+<br>
+
 ## Installation
 
 ```
@@ -25,6 +27,8 @@ npm i -D middleflare wrangler
 ```
 
 > [wrangler](https://developers.cloudflare.com/workers/wrangler/) is needed to manage the generated Cloudflare worker at `dist/worker.js`
+
+<br>
 
 ## Usage
 
@@ -48,6 +52,8 @@ You can find your `account_id` in the Cloudflare dashboard.
 
 The `wrangler` cli will use this file to build and deploy your worker.
 
+<br>
+
 ## Run locally
 
 The toml config above should be enough to run `wrangler dev` locally and preview your worker:
@@ -55,6 +61,8 @@ The toml config above should be enough to run `wrangler dev` locally and preview
 ```bash
 wrangler dev
 ```
+
+<br>
 
 ## Environment variables
 
@@ -75,6 +83,8 @@ I recommend using a tool like Doppler for your environment variables, if you pre
 [build]
 command = "dotenv -e .env yarn middleflare --middleware ../website/src/middleware.ts --url http://localhost:3000"
 ```
+
+<br>
 
 ## Deployment
 
@@ -110,6 +120,8 @@ Then you can deploy your worker with
 wrangler publish --env production
 ```
 
+<br>
+
 ## How to not embed environment variables in the generated worker code
 
 By default `middleflare` will embed your environment variables in the generated worker code, this is useful to get something working quickly.
@@ -144,6 +156,8 @@ You will also need to add the `--use-secrets` argument to the `build` command in
 command = "yarn middleflare --use-secrets --middleware ../website/src/middleware.ts --url https://my-deployed-next-app.fly.dev"
 ```
 
+<br>
+
 ## How it works
 
 This cli is a wrapper around esbuild that bundles your middleware file to be used by Cloudflare, some esbuild plugins are used to:
@@ -158,6 +172,8 @@ The cli will generate the worker at `dist/worker.js`, this worker will convert t
 -   `NextResponse.rewrite` is converted to a fetch request
 -   `NextResponse.redirect` is converted to a simple Response
 -   `NextResponse.next` is converted to a fetch to the passed `url` option
+
+<br>
 
 ## Origin Story
 
