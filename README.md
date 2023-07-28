@@ -147,7 +147,7 @@ command = "yarn middleflare --use-secrets --middleware ../website/src/middleware
 
 ## How it works
 
-This tool cli is a wrapper around esbuild to bundle your middleware file to be used by Cloudflare, some esbuild plugins are used to:
+This cli is a wrapper around esbuild that bundles your middleware file to be used by Cloudflare, some esbuild plugins are used to:
 
 -   Remove the `?module` from wasm imports, not supported by wrangler
 -   Add Node.js polyfills
