@@ -35,7 +35,7 @@ Then you create a `wrangler.toml` file like this
 ```toml
 account_id = "xxxxxx"
 compatibility_date = "2022-03-22"
-# zone_id = "d41b2e6b12fa08bd2105acbe3827d1a9"
+
 
 main = "./dist/worker.js"
 
