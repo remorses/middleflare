@@ -6,7 +6,7 @@
     "types": "dist/index.d.ts",
     "repository": "https://github.com/remorses/middleflare",
     "bin": {
-        "middleflare": "bin.js"
+        "middleflare": "./bin.js"
     },
     "scripts": {
         "build": "tsc",
