@@ -21,23 +21,24 @@ export async function buildMiddleware({ useSecrets, middleware, url }) {
     if (!u) {
         throw new Error(`invalid url ${url}`)
     }
-    // to make docker generate native prisma addons
+
     let envVars = !useSecrets
         ? Object.fromEntries(
               Object.keys(process.env).map((k) => {
                   return [`process.env.${k}`, JSON.stringify(process.env[k])]
               }),
           )
-        : Object.keys(process.env).map((k) => {
-              return [`process.env.${k}`, 'globalThis.__ENV__.' + k]
-          })
+        : Object.fromEntries(
+              Object.keys(process.env).map((k) => {
+                  return [`process.env.${k}`, 'globalThis.__ENV__.' + k]
+              }),
+          )
     fs.promises.unlink('dist').catch((e) => null)
     const index = path.resolve(
         path.dirname(require.resolve('../package.json')),
         'src/index.ts',
     )
     const { metafile } = await build({
-        // entryPoints: ['src/worker.ts'],
         stdin: {
             contents: `
             import { middlewareAdapter } from '${index}';
@@ -59,7 +60,7 @@ export async function buildMiddleware({ useSecrets, middleware, url }) {
         // format: 'esm',
         // mainFields: ['module', 'main'],
         plugins: [
-            LooselyIgnoreDeps(),
+            UseNextEsm(),
             polyfillNode({
                 globals: {
                     global: true,
@@ -69,76 +70,65 @@ export async function buildMiddleware({ useSecrets, middleware, url }) {
                 },
             }), //
             StripWasmModulesQuery(),
-            // UseNextEsm(),
         ],
         external: [],
-        // target: 'node18',
-        logOverride: {
-            'import-is-undefined': 'silent',
-        },
+
         define: envVars,
-        // splitting: false,
-        // splitting: true,
-        // outdir: 'dist',
+
         outfile: 'dist/worker.js',
     })
 
     fs.writeFileSync('dist/metafile.json', JSON.stringify(metafile, null, 2))
 }
 
-const ignore = ['@vercel/og']
-function LooselyIgnoreDeps() {
-    return {
-        name: 'Skip binaries',
-        setup(build: PluginBuild) {
-            const ignorePath = '/__ignore__'
-            build.onLoad({ filter: /__ignore__/ }, (args) => {
-                return {
-                    contents: '',
-                    loader: 'js',
-                }
-            })
-            build.onResolve(
-                {
-                    filter: /.*/,
-                },
-                (args) => {
-                    if (
-                        ignore.some(
-                            (x) => args.path === x || args.path.includes(x),
-                        )
-                    ) {
-                        return { path: ignorePath }
-                    }
-                    return
-                },
-            )
-        },
-    }
-}
-
 function UseNextEsm() {
     return {
         name: 'Use next esm',
         setup(build: PluginBuild) {
+            const newServerPath = 'esm-next-server-exports'
             build.onResolve(
                 {
-                    filter: /\/next\/dist.*/,
+                    filter: /^next(\/.*)?/,
                 },
                 (args) => {
-                    if (!args.path.includes('node_modules')) {
-                        return
+                    const p = require.resolve(args.path, {
+                        paths: [args.resolveDir],
+                    })
+                    if (args.path === 'next/server') {
+                        return {
+                            path: path.resolve(args.resolveDir, newServerPath),
+                            sideEffects: false,
+                        }
                     }
-                    if (!args.path.startsWith('next/')) {
-                        return
+                    const newPath = p.replace('/next/dist/', '/next/dist/esm/')
+                    if (fs.existsSync(newPath)) {
+                        // console.log('p', newPath)
+                        return {
+                            path: newPath,
+                            sideEffects: false,
+                        }
                     }
-                    const newPath = args.path.replace(
-                        '/next/dist/',
-                        '/next/dist/esm/',
-                    )
+                },
+            )
 
+            build.onLoad(
+                {
+                    filter: new RegExp(newServerPath),
+                },
+                (args) => {
                     return {
-                        path: newPath,
+                        resolveDir: path.dirname(args.path),
+                        loader: 'js',
+
+                        contents: `
+                        export { NextRequest } from 'next/dist/server/web/spec-extension/request'
+                        export { NextResponse } from 'next/dist/server/web/spec-extension/response'
+                        export { ImageResponse } from 'next/dist/server/web/spec-extension/image-response'
+                        export {
+                            userAgent,
+                            userAgentFromString,
+                        } from 'next/dist/server/web/spec-extension/user-agent'
+                        `,
                     }
                 },
             )

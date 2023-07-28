@@ -1,4 +1,5 @@
-import { NextFetchEvent, NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/dist/esm/server/web/spec-extension/request'
+import { NextResponse } from 'next/dist/esm/server/web/spec-extension/response'
 
 async function processMiddlewareResp(
     request: Request,
@@ -88,7 +89,6 @@ function applyHeaders(
     source: Record<string, string> | Headers,
 ): void {
     const entries =
-
         source instanceof Headers ? source.entries() : Object.entries(source)
     for (const [key, value] of entries) {
         const lowerKey = key.toLowerCase()

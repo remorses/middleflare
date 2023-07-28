@@ -23,12 +23,12 @@
     "author": "Tommaso De Rossi, morse <beats.by.morse@gmail.com>",
     "license": "",
     "devDependencies": {
-        "next": "^13.4.12"
+        "@types/node": "^20.4.5"
     },
     "dependencies": {
+        "next": "^13.4.12",
         "@cac/required-option": "^1.0.0",
         "@cloudflare/workers-types": "^3.8.0",
-        "@types/node": "^20.4.5",
         "cac": "^6.7.14",
         "esbuild": "^0.18.17",
         "esbuild-plugin-polyfill-node": "^0.3.0"
