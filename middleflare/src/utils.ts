@@ -33,12 +33,13 @@ async function processMiddlewareResp(
     const rewriteHeader = resp.headers.get(rewriteKey)
     if (rewriteHeader) {
         resp.headers.delete(rewriteKey)
-        if (rewriteHeader.startsWith('/')) {
+        const url = safeUrl(rewriteHeader)
+        let finalUrlObj = safeUrl(finalUrl)
+        if (rewriteHeader.startsWith('/') || url?.host === finalUrlObj?.host) {
             const url = new URL(request.url)
             const rewritten = new URL(url.pathname + url.search, finalUrl)
             return withRespHeaders(rewritten, resp)
         }
-        const url = safeUrl(rewriteHeader)
         if (url) {
             return withRespHeaders(await fetch(url.toString(), request), resp)
         }
