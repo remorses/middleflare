@@ -1,6 +1,6 @@
 {
     "name": "middleflare",
-    "version": "0.0.0",
+    "version": "0.0.1",
     "description": "Deploy Next.js middleware to Cloudflare Workers",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
@@ -17,6 +17,7 @@
         "dist",
         "src",
         "bin.js",
+        "README.md",
         "esm"
     ],
     "keywords": [
