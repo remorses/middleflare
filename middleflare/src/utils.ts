@@ -34,8 +34,8 @@ async function processMiddlewareResp(
     if (rewriteHeader) {
         resp.headers.delete(rewriteKey)
         const url = safeUrl(rewriteHeader)
-        let finalUrlObj = safeUrl(finalUrl)
-        if (rewriteHeader.startsWith('/') || url?.host === finalUrlObj?.host) {
+        const reqUrl = new URL(request.url)
+        if (rewriteHeader.startsWith('/') || url?.host === reqUrl.host) {
             const url = new URL(request.url)
             const rewritten = new URL(url.pathname + url.search, finalUrl)
             return withRespHeaders(rewritten, resp)
