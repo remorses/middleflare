@@ -4,13 +4,7 @@
         "module": "commonjs",
         "allowJs": true,
         "moduleResolution": "Node",
-        "lib": [
-            "es2022",
-            "es2017",
-            "es7",
-            "es6"
-            // "dom"
-        ],
+        "lib": ["es2022", "es2017", "es7", "es6", "dom"],
         "declaration": true,
         "declarationMap": true,
         "strict": true,

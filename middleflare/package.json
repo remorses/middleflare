@@ -1,0 +1,36 @@
+{
+    "name": "middleflare",
+    "version": "0.0.0",
+    "description": "Deploy Next.js middleware to Cloudflare Workers",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "repository": "https://github.com/remorses/middleflare",
+    "bin": {
+        "middleflare": "bin.js"
+    },
+    "scripts": {
+        "build": "tsc",
+        "cli": "tsx src/bin.ts",
+        "watch": "tsc -w"
+    },
+    "files": [
+        "dist",
+        "src",
+        "bin.js",
+        "esm"
+    ],
+    "keywords": [],
+    "author": "Tommaso De Rossi, morse <beats.by.morse@gmail.com>",
+    "license": "",
+    "devDependencies": {
+        "next": "^13.4.12"
+    },
+    "dependencies": {
+        "@cac/required-option": "^1.0.0",
+        "@cloudflare/workers-types": "^3.8.0",
+        "@types/node": "^20.4.5",
+        "cac": "^6.7.14",
+        "esbuild": "^0.18.17",
+        "esbuild-plugin-polyfill-node": "^0.3.0"
+    }
+}

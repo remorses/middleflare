@@ -1,0 +1,1 @@
+export { middlewareAdapter } from './utils'
