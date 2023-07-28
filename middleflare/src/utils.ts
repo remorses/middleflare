@@ -110,14 +110,20 @@ function safeUrl(url: string) {
 }
 
 export function middlewareAdapter({ middlewareModule, finalUrl }) {
+    if (!middlewareModule) {
+        throw new Error('Missing middlewareModule')
+    }
+    if (typeof middlewareModule !== 'function') {
+        throw new Error('middlewareModule must be a function')
+    }
     const worker: ExportedHandler = {
         async fetch(request, env, context) {
             globalThis.__ENV__ = env
             try {
                 // @ts-ignore
                 context.sourcePage = new URL(request.url).pathname
-                const fn =
-                    middlewareModule.default || middlewareModule.middleware
+                const mod = middlewareModule()
+                const fn = mod.default || mod.middleware
                 let resp = await fn(new NextRequest(request, request), context)
 
                 resp =

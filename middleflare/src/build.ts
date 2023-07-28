@@ -43,7 +43,7 @@ export async function buildMiddleware({ useSecrets, middleware, url }) {
             contents: `
             import { middlewareAdapter } from '${index}';
             export default middlewareAdapter({
-                middlewareModule: await import('${middleware}'),
+                middlewareModule: () => import('${middleware}'),
                 finalUrl: '${url}',
             })
             `,
