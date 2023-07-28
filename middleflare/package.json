@@ -19,7 +19,11 @@
         "bin.js",
         "esm"
     ],
-    "keywords": [],
+    "keywords": [
+        "cloudflare",
+        "next.js",
+        "middleware"
+    ],
     "author": "Tommaso De Rossi, morse <beats.by.morse@gmail.com>",
     "license": "",
     "devDependencies": {
@@ -27,7 +31,6 @@
     },
     "dependencies": {
         "next": "^13.4.12",
-        "@cac/required-option": "^1.0.0",
         "@cloudflare/workers-types": "^3.8.0",
         "cac": "^6.7.14",
         "esbuild": "^0.18.17",

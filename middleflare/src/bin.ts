@@ -8,7 +8,7 @@ cli.command('')
     .option('--url <url>', 'Your deployed Next.js url, like xxx.fly.dev', {})
     .option(
         '--use-secrets',
-        'process.env.VAR is converted to use your Cloudflare secrets',
+        'process.env.VAR is converted to use Cloudflare secrets',
         { default: false },
     )
     .option('--middleware <middlewarePath>', 'Your Next.js middleware path', {})
