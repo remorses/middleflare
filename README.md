@@ -24,7 +24,7 @@ Adding Cloudflare workers on top of your app will have several benefits:
 npm i -D middleflare wrangler
 ```
 
-> [wrangler](https://developers.cloudflare.com/workers/wrangler/) is needed to manage the resulting Cloudflare worker
+> [wrangler](https://developers.cloudflare.com/workers/wrangler/) is needed to manage the generated Cloudflare worker at `dist/worker.js`
 
 ## Usage
 
