@@ -1,7 +1,6 @@
 <div align='center'>
     <br/>
     <br/>
-    <img src='' width='320px'>
     <br/>
     <h3>middleflare</h3>
     <p>Deploy Next.js middleware to Cloudflare Workers</p>
