@@ -145,6 +145,21 @@ You will also need to add the `--use-secrets` argument to the `build` command in
 command = "yarn middleflare --use-secrets --middleware ../website/src/middleware.ts --url https://my-deployed-next-app.fly.dev"
 ```
 
+## How it works
+
+This tool cli is a wrapper around esbuild to bundle your middleware file to be used by Cloudflare, some esbuild plugins are used to:
+
+-   Remove the `?module` from wasm imports, not supported by wrangler
+-   Add Node.js polyfills
+-   Inject environment variables with define or Cloudflare secrets
+-   Use Next.js esm files instead of commonjs, so that esbuild can tree shake very heavy dependencies like `@vercel/og`
+
+The cli will generate the worker at `dist/worker.js`, this worker will convert the Cloudflare `Request` to a `NextRequest` and correctly handle `NextResponse`:
+
+-   `NextResponse.rewrite` is converted to a fetch request
+-   `NextResponse.redirect` is converted to a simple Response
+-   `NextResponse.next` is converted to a fetch to the passed `url` option
+
 ## Origin Story
 
 https://twitter.com/__morse/status/1684567607830261761
