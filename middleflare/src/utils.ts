@@ -122,7 +122,7 @@ export function middlewareAdapter({ middlewareModule, finalUrl }) {
             try {
                 // @ts-ignore
                 context.sourcePage = new URL(request.url).pathname
-                const mod = middlewareModule()
+                const mod = await middlewareModule()
                 const fn = mod.default || mod.middleware
                 let resp = await fn(new NextRequest(request, request), context)
 
