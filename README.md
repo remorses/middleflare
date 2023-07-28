@@ -29,7 +29,7 @@ npm i -D middleflare wrangler
 
 ## Usage
 
-You should create a directory for your Cloudflare worker code, even better if you create a new package in your workspace
+You should create a directory for your Cloudflare worker code, even better if you create a new package in your workspace.
 
 Then you create a `wrangler.toml` file like this
 
@@ -47,9 +47,11 @@ command = "yarn middleflare --middleware ../website/src/middleware.ts --url http
 
 You can find your `account_id` in the Cloudflare dashboard.
 
+The `wrangler` cli will use this file to build and deploy your worker.
+
 ## Run locally
 
-The toml config above should be enough to run `wrangler` locally and preview your worker:
+The toml config above should be enough to run `wrangler dev` locally and preview your worker:
 
 ```bash
 wrangler dev
@@ -57,7 +59,7 @@ wrangler dev
 
 ## Environment variables
 
-To use environment variables you need to inject them in the build command, here is an example using Doppler to inject them
+To use environment variables in your middleware you will need to inject them in the build command, here is an example using [Doppler](https://www.doppler.com) to inject them
 
 ```toml
 # ...
@@ -66,7 +68,7 @@ To use environment variables you need to inject them in the build command, here 
 command = "doppler run -c dev -- yarn middleflare --middleware ../website/src/middleware.ts --url http://localhost:3000"
 ```
 
-I recommend using a tool like [Doppler](https://www.doppler.com) for your environment variables, if you prefer keeping a `.env` file you can use `dotenv` to inject them in the build command
+I recommend using a tool like Doppler for your environment variables, if you prefer keeping a `.env` file you can use the `dotenv` cli to inject them in the build command
 
 ```toml
 # ...
@@ -77,9 +79,11 @@ command = "dotenv -e .env yarn middleflare --middleware ../website/src/middlewar
 
 ## Deployment
 
-To deploy your worker you can change your `wrangler.toml` to add an environment and a custom domain
+To deploy your worker you can change your `wrangler.toml` to add an environment and a custom domain.
 
 A wrangler environment is just a way to manage multiple workers with a single `wrangler.toml` file.
+
+You will also need to change the build command to use your deployed Next.js production app url.
 
 ```toml
 account_id = "xxxxxxx"
@@ -107,7 +111,7 @@ Then you can deploy your worker with
 wrangler publish --env production
 ```
 
-## Don't embed environment variables in the generated worker code
+## How to not embed environment variables in the generated worker code
 
 By default `middleflare` will embed your environment variables in the generated worker code, this is useful to get something working quickly.
 
