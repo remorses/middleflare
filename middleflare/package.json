@@ -28,11 +28,14 @@
     ],
     "author": "Tommaso De Rossi, morse <beats.by.morse@gmail.com>",
     "license": "",
+    "peerDependencies": {
+        "next": "*"
+    },
     "devDependencies": {
-        "@types/node": "^20.4.5"
+        "@types/node": "^20.4.5",
+        "next": "^13.4.12"
     },
     "dependencies": {
-        "next": "^13.4.12",
         "@cloudflare/workers-types": "^3.8.0",
         "cac": "^6.7.14",
         "esbuild": "^0.18.17",
