@@ -33,7 +33,7 @@
     },
     "devDependencies": {
         "@types/node": "^20.4.5",
-        "next": "^13.4.12"
+        "next": "^13.4.19"
     },
     "dependencies": {
         "@cloudflare/workers-types": "^3.8.0",
