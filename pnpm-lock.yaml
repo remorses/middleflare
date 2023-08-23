@@ -29,15 +29,9 @@ importers:
 
   middleflare:
     dependencies:
-      '@cac/required-option':
-        specifier: ^1.0.0
-        version: 1.0.0
       '@cloudflare/workers-types':
         specifier: ^3.8.0
         version: 3.8.0
-      '@types/node':
-        specifier: ^20.4.5
-        version: 20.4.5
       cac:
         specifier: ^6.7.14
         version: 6.7.14
@@ -48,6 +42,9 @@ importers:
         specifier: ^0.3.0
         version: 0.3.0(esbuild@0.18.17)
     devDependencies:
+      '@types/node':
+        specifier: ^20.4.5
+        version: 20.4.5
       next:
         specifier: ^13.4.12
         version: 13.4.12(react-dom@18.2.0)(react@18.2.0)
@@ -83,10 +80,6 @@ packages:
     dependencies:
       regenerator-runtime: 0.13.11
     dev: true
-
-  /@cac/required-option@1.0.0:
-    resolution: {integrity: sha512-kOJ9m5yqD9YPaDnCed+lmnw+H6bWBZ+0YLrPUrHpT1oR0bmqLI8vwJ4tiIHdmCGJR0xOOli8WoKALxGNLY2dEA==}
-    dev: false
 
   /@changesets/apply-release-plan@6.1.4:
     resolution: {integrity: sha512-FMpKF1fRlJyCZVYHr3CbinpZZ+6MwvOtWUuO8uo+svcATEoc1zRDcj23pAurJ2TZ/uVz1wFHH6K3NlACy0PLew==}
@@ -848,6 +841,7 @@ packages:
 
   /@types/node@20.4.5:
     resolution: {integrity: sha512-rt40Nk13II9JwQBdeYqmbn2Q6IVTA5uPhvSO+JVqdXw/6/4glI6oR9ezty/A9Hg5u7JH4OmYmuQ+XvjKm0Datg==}
+    dev: true
 
   /@types/normalize-package-data@2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
