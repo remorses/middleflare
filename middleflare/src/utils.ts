@@ -1,4 +1,5 @@
 import { NextRequest } from 'next/dist/esm/server/web/spec-extension/request'
+import { URL } from 'whatwg-url'
 import { NextResponse } from 'next/dist/esm/server/web/spec-extension/response'
 
 async function processMiddlewareResp(
@@ -53,7 +54,9 @@ async function processMiddlewareResp(
         resp.headers.delete(middlewareNextKey)
         const url = new URL(request.url)
         const rewritten = new URL(url.pathname + url.search, finalUrl)
-        return withRespHeaders(await fetch(rewritten.toString(), request), resp)
+        const u = rewritten.toString()
+        // console.log({ u, path: url.pathname }, request.url)
+        return withRespHeaders(await fetch(u, request), resp)
     } else if (!rewriteHeader && !resp.headers.has('location')) {
         // We should set the final response body and status to the middleware's if it does not want
         // to continue and did not rewrite/redirect the URL.
