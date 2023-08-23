@@ -1,5 +1,11 @@
 # middleflare
 
+## 0.0.9
+
+### Patch Changes
+
+-   Use URL polyfill because Cloudflare is mad mad mad
+
 ## 0.0.8
 
 ### Patch Changes
