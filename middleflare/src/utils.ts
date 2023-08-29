@@ -14,6 +14,8 @@ async function processMiddlewareResp(
     let cf: RequestInit['cf']
     // https://github.com/vercel/next.js/issues/45301
     if (isPrefetch && !resp.headers.has('cache-control')) {
+        cf = { cacheTtlByStatus: { '200-410': -1 } }
+        // https://developers.cloudflare.com/cache/how-to/configure-cache-status-code/
         request.headers.set('cache-control', 'no-store')
     }
     const overrideKey = 'x-middleware-override-headers'
