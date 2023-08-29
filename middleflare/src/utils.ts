@@ -8,6 +8,16 @@ async function processMiddlewareResp(
     finalUrl: string,
 ) {
     resp = new NextResponse(resp.body, resp)
+    const isPrefetch = request.headers.get('x-middleware-prefetch')
+    let cf: RequestInit['cf']
+    // https://github.com/vercel/next.js/issues/45301
+    if (isPrefetch && !resp.headers.has('cache-control')) {
+        cf = { cacheTtl: 0 }
+        resp.headers.set(
+            'cache-control',
+            'private, no-cache, no-store, max-age=0, must-revalidate',
+        )
+    }
     const overrideKey = 'x-middleware-override-headers'
     const overrideHeader = resp.headers.get(overrideKey)
     if (overrideHeader) {
@@ -39,12 +49,15 @@ async function processMiddlewareResp(
         if (rewriteHeader.startsWith('/') || url?.host === reqUrl.host) {
             const rewritten = new URL(reqUrl.pathname + reqUrl.search, finalUrl)
             return withRespHeaders(
-                await fetch(rewritten.toString(), request),
+                await fetch(new Request(rewritten.toString(), request), { cf }),
                 resp,
             )
         }
         if (url) {
-            return withRespHeaders(await fetch(url.toString(), request), resp)
+            return withRespHeaders(
+                await fetch(new Request(url.toString(), request), { cf }),
+                resp,
+            )
         }
     }
 
@@ -56,7 +69,10 @@ async function processMiddlewareResp(
         const rewritten = new URL(url.pathname + url.search, finalUrl)
         const u = rewritten.toString()
         // console.log({ u, path: url.pathname }, request.url)
-        return withRespHeaders(await fetch(u, request), resp)
+        return withRespHeaders(
+            await fetch(new Request(u, request), { cf }),
+            resp,
+        )
     } else if (!rewriteHeader && !resp.headers.has('location')) {
         // We should set the final response body and status to the middleware's if it does not want
         // to continue and did not rewrite/redirect the URL.
@@ -72,6 +88,7 @@ async function processMiddlewareResp(
 
 function withRespHeaders(resp1, resp2) {
     applyHeaders(resp1.headers, resp2.headers)
+
     return resp1
 }
 
