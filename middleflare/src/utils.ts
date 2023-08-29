@@ -7,16 +7,14 @@ async function processMiddlewareResp(
     resp: Response,
     finalUrl: string,
 ) {
+    request = new Request(request)
+    // request.headers.set('x-middleware-final-url', finalUrl)
     resp = new NextResponse(resp.body, resp)
     const isPrefetch = request.headers.get('x-middleware-prefetch')
     let cf: RequestInit['cf']
     // https://github.com/vercel/next.js/issues/45301
     if (isPrefetch && !resp.headers.has('cache-control')) {
-        cf = { cacheTtl: 0 }
-        resp.headers.set(
-            'cache-control',
-            'private, no-cache, no-store, max-age=0, must-revalidate',
-        )
+        request.headers.set('cache-control', 'no-store')
     }
     const overrideKey = 'x-middleware-override-headers'
     const overrideHeader = resp.headers.get(overrideKey)
