@@ -38,7 +38,7 @@ Then you create a `wrangler.toml` file like this
 
 ```toml
 account_id = "xxxxxx"
-compatibility_date = "2022-03-22"
+compatibility_date = "2023-10-16"
 
 
 main = "./dist/worker.js"
@@ -96,7 +96,7 @@ You will also need to change the build command to use your deployed Next.js prod
 
 ```toml
 account_id = "xxxxxxx"
-compatibility_date = "2022-03-22"
+compatibility_date = "2023-10-16"
 
 main = "./dist/worker.js"
 
