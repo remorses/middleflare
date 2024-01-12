@@ -41,10 +41,3 @@ async function main() {
 }
 
 main()
-
-let finalUrl =
-    process.env.NEXT_PUBLIC_ENV === 'development'
-        ? `http://localhost:5467`
-        : process.env.NEXT_PUBLIC_ENV === 'preview'
-        ? 'https://knowledg-website-preview.fly.dev'
-        : ``
