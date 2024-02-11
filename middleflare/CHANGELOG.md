@@ -1,5 +1,11 @@
 # middleflare
 
+## 0.0.10
+
+### Patch Changes
+
+-   Allow override in esbuild
+
 ## 0.0.9
 
 ### Patch Changes
