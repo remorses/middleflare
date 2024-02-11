@@ -1,5 +1,4 @@
 import { NextRequest } from 'next/dist/esm/server/web/spec-extension/request'
-import { URL } from 'whatwg-url'
 import { NextResponse } from 'next/dist/esm/server/web/spec-extension/response'
 
 async function processMiddlewareResp(

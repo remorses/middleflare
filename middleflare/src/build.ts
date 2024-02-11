@@ -38,7 +38,7 @@ export async function buildMiddleware({ useSecrets, middleware, url }) {
         path.dirname(require.resolve('../package.json')),
         'src/index.ts',
     )
-    const { metafile } = await build({
+    const { metafile, errors } = await build({
         stdin: {
             contents: `
             import { middlewareAdapter } from '${index}';
@@ -59,7 +59,7 @@ export async function buildMiddleware({ useSecrets, middleware, url }) {
         // sourcemap: 'inline',
         metafile: true,
         format: 'esm',
-        minify: false,
+        minify: true,
         // format: 'esm',
         // mainFields: ['module', 'main'],
         plugins: [
