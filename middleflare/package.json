@@ -38,7 +38,7 @@
     "dependencies": {
         "@cloudflare/workers-types": "^4.20240405.0",
         "cac": "^6.7.14",
-        "esbuild": "^0.20.2",
+        "esbuild": "^0.21.4",
         "esbuild-plugin-polyfill-node": "^0.3.0"
     }
 }
