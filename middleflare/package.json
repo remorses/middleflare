@@ -33,12 +33,12 @@
     },
     "devDependencies": {
         "@types/node": "^20.11.17",
-        "next": "^15.0.3"
+        "next": "^15.0.4"
     },
     "dependencies": {
         "@cloudflare/workers-types": "^4.20240405.0",
         "cac": "^6.7.14",
-        "esbuild": "^0.21.5",
+        "esbuild": "^0.24.0",
         "esbuild-plugin-polyfill-node": "^0.3.0"
     }
 }
