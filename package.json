@@ -10,8 +10,8 @@
     "devDependencies": {
         "@changesets/cli": "^2.27.9",
         "prettier": "^3.2.5",
-        "tsx": "^4.19.3",
-        "typescript": "5.5.2",
+        "tsx": "^4.19.2",
+        "typescript": "5.7.3",
         "vite": "^5.3.1",
         "vitest": "^2.1.8"
     },
