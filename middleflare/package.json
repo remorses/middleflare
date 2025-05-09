@@ -32,7 +32,7 @@
         "next": "*"
     },
     "devDependencies": {
-        "@types/node": "^20.11.17",
+        "@types/node": "^22.15.17",
         "next": "^15.3.1"
     },
     "dependencies": {
